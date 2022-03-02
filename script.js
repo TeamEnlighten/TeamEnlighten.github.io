@@ -1,1 +1,1 @@
-var mykey = GITHUB_ENV.MY_KEY
+const mykey = process.env.MY_KEY
