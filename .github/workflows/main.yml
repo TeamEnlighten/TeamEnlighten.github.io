@@ -7,11 +7,19 @@ jobs:
     name: My Job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Decrypt large secret
-        run: ./script.js
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install Dependencies (prod)
+        run: yarn install --frozen-lockfile --production
+
+      - name: Run Tests (JEST)
+        run: yarn test --ci --silent --testPathIgnorePatterns=experimental
         env:
+          CI: true
           MY_KEY: ${{ secrets.MY_KEY }}
-      # This command is just an example to show your secret being printed
-      # Ensure you remove any print statements of your secrets. GitHub does
-      # not hide secrets that use this workaround.
