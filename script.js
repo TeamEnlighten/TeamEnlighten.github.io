@@ -1,1 +1,1 @@
-const mykey = process.env.MY_KEY
+const mykey = env.MY_KEY
