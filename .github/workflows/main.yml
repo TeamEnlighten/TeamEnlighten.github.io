@@ -1,30 +1,17 @@
-name: CI
+name: Workflows with large secrets
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
-  build:
-
+  my-job:
+    name: My Job
     runs-on: ubuntu-latest
-
     steps:
-    
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Build
-      run: |
-        npm install
-        npm run-script build
-      env:
-        MY_KEY: ${{ secrets.MY_KEY }}
-
-    - name: Deploy
-      uses: TeamEnlighten/github-pages-deploy-action@releases/v3
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: build
+      - uses: actions/checkout@v2
+      - name: Decrypt large secret
+        run: ./script.js
+        env:
+          MY_KEY: ${{ secrets.MY_KEY }}
+      # This command is just an example to show your secret being printed
+      # Ensure you remove any print statements of your secrets. GitHub does
+      # not hide secrets that use this workaround.
